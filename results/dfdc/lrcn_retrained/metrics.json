@@ -1,0 +1,31 @@
+{
+  "confusion_matrix": {
+    "TN": 353,
+    "FP": 215,
+    "FN": 8,
+    "TP": 31
+  },
+  "total_samples": 607,
+  "accuracy": 0.6326,
+  "balanced_accuracy": 0.7082,
+  "precision_real": 0.126,
+  "recall_real": 0.7949,
+  "f1_real": 0.2175,
+  "specificity": 0.6215,
+  "f1_fake": 0.76,
+  "class_dist": {
+    "fake": 568,
+    "real": 39,
+    "ratio": 14.56
+  },
+  "roc_auc": 0.8162,
+  "avg_precision": 0.4659,
+  "best_threshold": {
+    "t": 0.83,
+    "prec": 0.5556,
+    "rec": 0.5128,
+    "f1": 0.5333
+  },
+  "model": "LRCN-Retrained",
+  "dataset": "dfdc"
+}

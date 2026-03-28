@@ -1,0 +1,126 @@
+{
+  "lrcn_original": {
+    "confusion_matrix": {
+      "TN": 1127,
+      "FP": 1,
+      "FN": 96,
+      "TP": 22
+    },
+    "total_samples": 1246,
+    "accuracy": 0.9222,
+    "balanced_accuracy": 0.5928,
+    "precision_real": 0.9565,
+    "recall_real": 0.1864,
+    "f1_real": 0.3121,
+    "specificity": 0.9991,
+    "f1_fake": 0.9587,
+    "class_dist": {
+      "fake": 1128,
+      "real": 118,
+      "ratio": 9.56
+    },
+    "roc_auc": 0.7895,
+    "avg_precision": 0.4364,
+    "best_threshold": {
+      "t": 0.14,
+      "prec": 0.5362,
+      "rec": 0.3136,
+      "f1": 0.3957
+    },
+    "model": "LRCN-Original",
+    "dataset": "celeb-df"
+  },
+  "lrcn_retrained": {
+    "confusion_matrix": {
+      "TN": 655,
+      "FP": 473,
+      "FN": 31,
+      "TP": 87
+    },
+    "total_samples": 1246,
+    "accuracy": 0.5955,
+    "balanced_accuracy": 0.659,
+    "precision_real": 0.1554,
+    "recall_real": 0.7373,
+    "f1_real": 0.2566,
+    "specificity": 0.5807,
+    "f1_fake": 0.7222,
+    "class_dist": {
+      "fake": 1128,
+      "real": 118,
+      "ratio": 9.56
+    },
+    "roc_auc": 0.7315,
+    "avg_precision": 0.3527,
+    "best_threshold": {
+      "t": 0.765,
+      "prec": 0.3861,
+      "rec": 0.3305,
+      "f1": 0.3562
+    },
+    "model": "LRCN-Retrained",
+    "dataset": "celeb-df"
+  },
+  "svm_per_frame": {
+    "confusion_matrix": {
+      "TN": 16912,
+      "FP": 8,
+      "FN": 1750,
+      "TP": 20
+    },
+    "total_samples": 18690,
+    "accuracy": 0.9059,
+    "balanced_accuracy": 0.5054,
+    "precision_real": 0.7143,
+    "recall_real": 0.0113,
+    "f1_real": 0.0222,
+    "specificity": 0.9995,
+    "f1_fake": 0.9506,
+    "class_dist": {
+      "fake": 16920,
+      "real": 1770,
+      "ratio": 9.56
+    },
+    "roc_auc": 0.7417,
+    "avg_precision": 0.2822,
+    "best_threshold": {
+      "t": -0.9465,
+      "prec": 0.323,
+      "rec": 0.3701,
+      "f1": 0.3449
+    },
+    "model": "SVM",
+    "dataset": "celeb-df"
+  },
+  "svm_per_video": {
+    "confusion_matrix": {
+      "TN": 1113,
+      "FP": 15,
+      "FN": 94,
+      "TP": 24
+    },
+    "total_samples": 1246,
+    "accuracy": 0.9125,
+    "balanced_accuracy": 0.595,
+    "precision_real": 0.6154,
+    "recall_real": 0.2034,
+    "f1_real": 0.3057,
+    "specificity": 0.9867,
+    "f1_fake": 0.9533,
+    "class_dist": {
+      "fake": 1128,
+      "real": 118,
+      "ratio": 9.56
+    },
+    "roc_auc": 0.823,
+    "avg_precision": 0.4364,
+    "best_threshold": {
+      "t": 0.3313,
+      "prec": 0.5474,
+      "rec": 0.4407,
+      "f1": 0.4883
+    },
+    "model": "SVM (per-video)",
+    "dataset": "celeb-df"
+  }
+}

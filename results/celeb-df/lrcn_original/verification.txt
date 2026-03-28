@@ -1,0 +1,1 @@
+From the LRCN-Original confusion matrix (TN=1127, FP=1, FN=96, TP=22): Precision(Real)=0.9565, Recall(Real)=0.1864, Accuracy=0.9222, F1(Real)=0.3121, Specificity=0.9991, Balanced Accuracy=0.5928.

@@ -1,0 +1,31 @@
+{
+  "confusion_matrix": {
+    "TN": 1113,
+    "FP": 15,
+    "FN": 94,
+    "TP": 24
+  },
+  "total_samples": 1246,
+  "accuracy": 0.9125,
+  "balanced_accuracy": 0.595,
+  "precision_real": 0.6154,
+  "recall_real": 0.2034,
+  "f1_real": 0.3057,
+  "specificity": 0.9867,
+  "f1_fake": 0.9533,
+  "class_dist": {
+    "fake": 1128,
+    "real": 118,
+    "ratio": 9.56
+  },
+  "roc_auc": 0.823,
+  "avg_precision": 0.4364,
+  "best_threshold": {
+    "t": 0.3313,
+    "prec": 0.5474,
+    "rec": 0.4407,
+    "f1": 0.4883
+  },
+  "model": "SVM (per-video)",
+  "dataset": "celeb-df"
+}

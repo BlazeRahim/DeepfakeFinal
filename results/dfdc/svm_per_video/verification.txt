@@ -1,0 +1,1 @@
+From the SVM (per-video) confusion matrix (TN=566, FP=2, FN=26, TP=13): Precision(Real)=0.8667, Recall(Real)=0.3333, Accuracy=0.9539, F1(Real)=0.4815, Specificity=0.9965, Balanced Accuracy=0.6649.

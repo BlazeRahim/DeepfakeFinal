@@ -1,0 +1,31 @@
+{
+  "confusion_matrix": {
+    "TN": 8513,
+    "FP": 7,
+    "FN": 573,
+    "TP": 12
+  },
+  "total_samples": 9105,
+  "accuracy": 0.9363,
+  "balanced_accuracy": 0.5098,
+  "precision_real": 0.6316,
+  "recall_real": 0.0205,
+  "f1_real": 0.0397,
+  "specificity": 0.9992,
+  "f1_fake": 0.9671,
+  "class_dist": {
+    "fake": 8520,
+    "real": 585,
+    "ratio": 14.56
+  },
+  "roc_auc": 0.7633,
+  "avg_precision": 0.3417,
+  "best_threshold": {
+    "t": 0.05,
+    "prec": 0.4615,
+    "rec": 0.0103,
+    "f1": 0.0201
+  },
+  "model": "SVM",
+  "dataset": "dfdc"
+}

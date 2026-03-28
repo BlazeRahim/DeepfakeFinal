@@ -1,0 +1,1 @@
+From the SVM confusion matrix (TN=16912, FP=8, FN=1750, TP=20): Precision(Real)=0.7143, Recall(Real)=0.0113, Accuracy=0.9059, F1(Real)=0.0222, Specificity=0.9995, Balanced Accuracy=0.5054.

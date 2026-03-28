@@ -1,0 +1,31 @@
+{
+  "confusion_matrix": {
+    "TN": 16912,
+    "FP": 8,
+    "FN": 1750,
+    "TP": 20
+  },
+  "total_samples": 18690,
+  "accuracy": 0.9059,
+  "balanced_accuracy": 0.5054,
+  "precision_real": 0.7143,
+  "recall_real": 0.0113,
+  "f1_real": 0.0222,
+  "specificity": 0.9995,
+  "f1_fake": 0.9506,
+  "class_dist": {
+    "fake": 16920,
+    "real": 1770,
+    "ratio": 9.56
+  },
+  "roc_auc": 0.7417,
+  "avg_precision": 0.2822,
+  "best_threshold": {
+    "t": -0.9465,
+    "prec": 0.323,
+    "rec": 0.3701,
+    "f1": 0.3449
+  },
+  "model": "SVM",
+  "dataset": "celeb-df"
+}
