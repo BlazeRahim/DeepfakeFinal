@@ -43,7 +43,7 @@ We have corrected the column headers in the revised Table 1. Additionally, the r
 > **Leakage prevention:** Each video is processed independently. All 15 frames sampled from a given video appear exclusively in the split to which that video is assigned. No frame-level shuffling is performed across videos. Because Celeb-DF v2 and DFDC do not publish identity metadata in a form usable for subject-disjoint splitting, we note this as a limitation; however, the video-level split prevents the primary form of train-test leakage (frame overlap).
 >
 > **Test set composition (Celeb-DF v2):** 1,246 videos (1,128 fake + 118 real), imbalance ratio 9.56:1.
-> **Test set composition (DFDC):** 687 videos (614 fake + 73 real), imbalance ratio 8.41:1.
+> **Test set composition (DFDC):** 687 videos in the 80/20 split, of which 607 yielded successful face detections (568 fake + 39 real), imbalance ratio 14.56:1.
 
 **Changes:** Section 4.1 (new subsection on split protocol).
 
@@ -63,7 +63,7 @@ All new experimental results in the revised paper use **per-video evaluation**:
 >
 > Evaluation unit is stated in all table captions and figure legends.
 
-**Changes:** Section 4.1 (sampling rule), Section 4.2 (aggregation rule), Section 4.3 (all tables and figure captions now state "per-video, N=1,246" or "per-video, N=687").
+**Changes:** Section 4.1 (sampling rule), Section 4.2 (aggregation rule), Section 4.3 (all tables and figure captions now state "per-video, N=1,246" or "per-video, N=607").
 
 ---
 
@@ -187,7 +187,7 @@ where $y_{i,c} \in \{0,1\}$ is the one-hot encoded ground truth for sample $i$ a
 
 1. **"AAR Cascade" → "Haar Cascade"** — global find-and-replace throughout the manuscript.
 2. **Section cross-reference:** Section 4.3 now correctly refers to "Section 4.1" (not "Section 3.1") for dataset descriptions.
-3. **AUC interpretation corrected:** The original text stated "an AUC of 0.95, demonstrating… approximately 92.1% of instances." This has been corrected to: "An AUC of 0.790 indicates that a randomly chosen real video receives a higher score than a randomly chosen fake video with probability 79.0%." All AUC interpretations now use the correct probabilistic meaning.
+3. **AUC interpretation corrected:** The original text stated "an AUC of 0.95, demonstrating… approximately 92.1% of instances." This has been corrected to: "An AUC of 0.770 indicates that a randomly chosen real video receives a higher score than a randomly chosen fake video with probability 77.0%." All AUC interpretations now use the correct probabilistic meaning.
 
 **Changes:** Global (Haar Cascade typo), Section 4.3 (cross-reference fix), Section 4.3 (AUC interpretation).
 
@@ -258,8 +258,8 @@ where $y_{i,c} \in \{0,1\}$ is the one-hot encoded ground truth for sample $i$ a
 **Response:** We now include a threshold analysis figure (new figure in Section 4.3) showing precision, recall, F1, and balanced accuracy as functions of the decision threshold for all models. Key findings:
 
 - **LRCN (original):** optimal F1(Real) = 0.444 at threshold **0.095** (default 0.5 severely under-detects real videos)
-- **SVM (per-video):** optimal F1 at threshold **0.331** (AUC=0.823 confirms discriminative capacity masked by default threshold)
-- **LRCN (focal loss retrained):** optimal F1 at threshold **0.765**
+- **SVM (per-video):** optimal F1 = 0.351 at threshold **0.150** (AUC=0.718 confirms discriminative capacity masked by default threshold)
+- **LRCN (focal loss retrained):** optimal F1 at threshold **0.735**
 
 This analysis reveals that the apparent recall collapse is partly an artifact of using the default 0.5 threshold on a model trained with imbalanced data.
 
@@ -282,12 +282,12 @@ Results (per-video):
 
 | Dataset | Model | Recall(Real) | Balanced Acc | AUC |
 |---|---|---|---|---|
-| Celeb-DF | LRCN-Original | 0.178 | 0.588 | 0.790 |
-| Celeb-DF | LRCN-Retrained | 0.737 | 0.653 | 0.790 |
+| Celeb-DF | LRCN-Original | 0.178 | 0.588 | 0.770 |
+| Celeb-DF | LRCN-Retrained | 0.805 | 0.653 | 0.745 |
 | DFDC | LRCN-Original | 0.462 | 0.711 | 0.739 |
 | DFDC | LRCN-Retrained | 0.795 | 0.708 | 0.816 |
 
-Recall improved from 17.8% → 73.7% on Celeb-DF and 46.2% → 79.5% on DFDC, demonstrating that the recall collapse is directly caused by class imbalance and can be substantially mitigated through cost-sensitive training.
+Recall improved from 17.8% → 80.5% on Celeb-DF and 46.2% → 79.5% on DFDC, demonstrating that the recall collapse is directly caused by class imbalance and can be substantially mitigated through cost-sensitive training.
 
 **Changes:** Section 3 (retrained model description), Section 4.4 (new: focal loss experiment and results), Tables 1–2 (LRCN-Retrained row added).
 
@@ -299,12 +299,12 @@ Recall improved from 17.8% → 73.7% on Celeb-DF and 46.2% → 79.5% on DFDC, de
 
 **Response:** We have added an ablation/analysis paragraph to Section 4.3:
 
-> The LRCN's low recall for the Real class despite high overall accuracy is a direct consequence of the 9.56:1 class imbalance (Fake:Real) in Celeb-DF v2. A trivial classifier predicting Fake for all samples achieves ~90.5% accuracy. The original LRCN (92.2% accuracy, 17.8% recall) is only marginally better than this baseline.
+> The LRCN's low recall for the Real class despite high overall accuracy is a direct consequence of the 9.56:1 class imbalance (Fake:Real) in Celeb-DF v2. A trivial classifier predicting Fake for all samples achieves ~90.5% accuracy. The original LRCN (92.1% accuracy, 17.8% recall) is only marginally better than this baseline.
 >
 > **Evidence:**
 > 1. **Balanced accuracy** (58.8%) is only 8.8 points above random (50%), revealing the true discriminative performance masked by standard accuracy.
 > 2. **Threshold analysis** shows the LRCN assigns systematically low probability to the Real class — optimal threshold is 0.095, not 0.5.
-> 3. **Retraining with focal loss + balanced batches** recovers 73.7% recall (Celeb-DF) and 79.5% recall (DFDC), confirming across both datasets that the collapse is caused by the loss landscape under imbalance, not by architectural limitations.
+> 3. **Retraining with focal loss + balanced batches** recovers 80.5% recall (Celeb-DF) and 79.5% recall (DFDC), confirming across both datasets that the collapse is caused by the loss landscape under imbalance, not by architectural limitations.
 > 4. **The SVM shows the same pattern:** trained without class weights on imbalanced data, it achieves 0% recall with a default threshold, further confirming that the issue is data-driven, not model-specific.
 
 **Changes:** Section 4.3 (new ablation paragraph), Section 4.4 (cross-referenced).

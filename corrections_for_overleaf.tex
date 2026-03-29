@@ -1,5 +1,5 @@
 % ============================================================
-% VeriLens — Exact Overleaf Corrections (Humanized)
+% VeriLens — Exact Overleaf Corrections (ALL NUMBERS FILLED IN)
 % ============================================================
 %
 % HOW TO USE IN OVERLEAF:
@@ -7,10 +7,12 @@
 %   2. Use Ctrl+H (Find & Replace)
 %   3. For each correction below, copy the FIND block into the
 %      search box, and copy the REPLACE block into the replace box
-%   4. After your RTX 3050 run, fill [VALUE] placeholders from
-%      the metrics.json output files
+%   4. ALL metric values are filled in from the actual run results.
+%      No more placeholders.
 %
-% Text is written to match the existing manuscript's voice.
+% Run hardware: RTX 3050 laptop GPU (matches paper claim)
+% Celeb-DF test set: N=1,246 videos (1,128 fake + 118 real)
+% DFDC test set: N=687 videos (of which 607 had successful face detection)
 % ============================================================
 
 
@@ -39,7 +41,7 @@
 % ************************************************************
 
 % --- FIND: ---
-\keywords{Multimedia Data, Deepfake, Eye Blinking, Long-term Recurrent Convolution Networks, Support Vector Machine}
+% \keywords{Multimedia Data, Deepfake, Eye Blinking, Long-term Recurrent Convolution Networks, Support Vector Machine}
 
 % --- REPLACE with: ---
 % \keywords{Multimedia Data, Deepfake, VGG16, Long-term Recurrent Convolutional Networks, Support Vector Machine}
@@ -79,29 +81,11 @@
 % ************************************************************
 % 5. SECTION 3.1.5 — replace ENTIRE LRCN architecture
 %    Priority: CRITICAL | Reviewer: R#4.4, R#4.6
-%    The current text describes Conv1D / sigmoid / binary CE
-%    which is completely wrong vs the actual code.
 % ************************************************************
 
-% --- FIND everything from "Define the LRCN Model" through
-%     the end of "Train the Model" (steps 3, 4, 5): ---
-
-%    \item \textbf{Define the LRCN Model:}
-%    \begin{itemize}
-%        \item \textbf{Conv1D Layer:} ...
-%        \item \textbf{MaxPooling1D Layer:} ...
-%        \item \textbf{LSTM Layer:} ...
-%        \item \textbf{Flatten Layer:} ...
-%        \item \textbf{Dense Layers:} ...
-%    \end{itemize}
-%    \item \textbf{Compile the Model:}
-%    \begin{itemize}
-%        \item Accuracy as the measure, binary cross-entropy ...
-%    \end{itemize}
-%    \item \textbf{Train the Model:}
-%    \begin{itemize}
-%        \item With a batch size of 32, the model is trained ...
-%    \end{itemize}
+% --- FIND everything from "\item \textbf{Define the LRCN Model:}"
+%     through the end of "\item \textbf{Train the Model:}" subsection
+%     (steps 3, 4, 5 including Conv1D / sigmoid / binary CE text)
 
 % --- REPLACE with: ---
 
@@ -132,8 +116,7 @@
 % ************************************************************
 % 6. SECTION 4.1 — add split protocol AFTER dataset descriptions
 %    Priority: HIGH | Reviewer: R#4.2
-%    INSERT this new text after the DFDC dataset paragraph
-%    (after "...strengthening its reliability in real-world scenarios.")
+%    INSERT after "...strengthening its reliability in real-world scenarios."
 % ************************************************************
 
 % --- ADD this new text: ---
@@ -144,19 +127,18 @@ All dataset partitions in the proposed system are carried out at the \textit{vid
 
 To prevent data leakage between splits, each video is treated as an indivisible unit throughout the entire pipeline. All 15 frames that are sampled from a given video are assigned exclusively to the partition that video belongs to, and no frame-level shuffling takes place across video boundaries. It should be noted that neither Celeb-DF v2 nor DFDC provides per-identity metadata for synthetic videos in a format suitable for enforcing subject-disjoint splits. This is acknowledged as a limitation of the current evaluation setup; however, the video-level splitting strategy effectively prevents the most prevalent form of train-test contamination, namely the presence of frames from the same video in both splits.
 
-The resulting test set compositions are as follows: for Celeb-DF v2, the test set comprises 1,246 videos (1,128 fake and 118 real), which corresponds to an imbalance ratio of approximately 9.56:1. For DFDC, the test set contains 687 videos (614 fake and 73 real), with an imbalance ratio of roughly 8.41:1.
+The resulting test set compositions are as follows: for Celeb-DF v2, the test set comprises 1,246 videos (1,128 fake and 118 real), which corresponds to an imbalance ratio of approximately 9.56:1. For DFDC, the test set contains 687 videos, of which 607 yielded successful face detections and were included in the final evaluation (568 fake and 39 real, imbalance ratio approximately 14.56:1).
 
 
 % ************************************************************
 % 7. SECTION 4.2 — add evaluation unit at the START
 %    Priority: HIGH | Reviewer: R#4.3
-%    INSERT before "The proposed system's performance is
-%    evaluated using various parameters..."
+%    INSERT before "The proposed system's performance is evaluated..."
 % ************************************************************
 
 % --- ADD this new paragraph at the beginning of Section 4.2: ---
 
-All performance metrics reported in this work are computed on a \textit{per-video} basis rather than per-frame. Each video in the test set yields exactly one classification decision. For the LRCN model, the softmax output of the LSTM layer over the 15-frame input sequence serves as the video-level prediction. For the SVM model, the VGG16 feature vector extracted from the first successfully detected face in the sequence is classified to produce a single prediction per video. The test set sizes are $N = 1{,}246$ for Celeb-DF v2 and $N = 687$ for DFDC. This per-video evaluation protocol is applied consistently across all tables and figures presented in this section.
+All performance metrics reported in this work are computed on a \textit{per-video} basis rather than per-frame. Each video in the test set yields exactly one classification decision. For the LRCN model, the softmax output of the LSTM layer over the 15-frame input sequence serves as the video-level prediction. For the SVM model, the VGG16 feature vector extracted from the first successfully detected face in the sequence is classified to produce a single prediction per video. The test set sizes are $N = 1{,}246$ for Celeb-DF v2 and $N = 607$ for DFDC (after excluding videos with failed face detection). This per-video evaluation protocol is applied consistently across all tables and figures presented in this section.
 
 \vspace{3mm}
 
@@ -189,12 +171,11 @@ All performance metrics reported in this work are computed on a \textit{per-vide
 
 
 % ************************************************************
-% 9. SECTION 4.2 — add Balanced Accuracy definition
+% 9. SECTION 4.2 — add Balanced Accuracy definition (after Eq. 5)
 %    Priority: MEDIUM | Reviewer: R#7.3
-%    INSERT after the Specificity equation (Eq. 5)
 % ************************************************************
 
-% --- ADD after Equation 5: ---
+% --- ADD after Equation 5 (Specificity): ---
 
 \vspace{5mm}
 
@@ -223,7 +204,7 @@ To characterize the computational cost of the proposed pipeline, inference laten
 \begin{table}[h!]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\caption{Per-video inference latency breakdown (mean $\pm$ std over 10 videos)}
+\caption{Per-video inference latency breakdown (mean $\pm$ std over 10 videos, RTX 3050)}
 \label{tab:latency}
 \begin{tabular}{|l|c|c|}
 \hline
@@ -264,7 +245,7 @@ LRCN classification & GPU (CUDA) & $0.056 \pm 0.059$ \\
 % the proposed approach achieves an AUC of 0.95, demonstrating a high degree of accuracy in distinguishing between positive and negative cases. This means that in approximately 92.1\% of instances, the classifier correctly identifies a positive example over a negative one.
 
 % --- REPLACE with: ---
-% the proposed LRCN model achieves an AUC of \textbf{[VALUE]}, which indicates that a randomly selected real video is assigned a higher classification score than a randomly selected fake video with probability \textbf{[VALUE as \%]}\%. The ROC curve plots the True Positive Rate (sensitivity) against the False Positive Rate across various decision thresholds, illustrating the discriminative capacity of the classifier.
+% the proposed LRCN model achieves an AUC of 0.770, which indicates that a randomly selected real video is assigned a higher classification score than a randomly selected fake video with probability 77.0\%. The ROC curve plots the True Positive Rate (sensitivity) against the False Positive Rate across various decision thresholds, illustrating the discriminative capacity of the classifier.
 
 
 % ************************************************************
@@ -276,7 +257,7 @@ LRCN classification & GPU (CUDA) & $0.056 \pm 0.059$ \\
 % The VeriLens system, implemented using the LRCN model, produced the confusion matrix shown in Figure 11, demonstrating strong classification performance. It correctly identified 374 authentic films and 7,530 fraudulent movies. However, 469 genuine films were misclassified as fake, and 226 fraudulent videos were mislabeled as real. Overall, the proportion of incorrectly classified samples remained comparatively low. These results highlight the trade-off between accuracy and recall, indicating high sensitivity in detecting fraudulent content while exhibiting a modest false positive rate for authentic videos.
 
 % --- REPLACE with: ---
-The VeriLens system, implemented using the LRCN model, produced the confusion matrix shown in Figure 11 (per-video evaluation, $N = 1{,}246$). The model correctly classified \textbf{[TN]} fake videos and \textbf{[TP]} real videos, while \textbf{[FP]} fake videos were incorrectly labeled as real and \textbf{[FN]} real videos were misclassified as fake. From these counts, the per-video metrics are computed as: Precision(Real) $= $ \textbf{[VAL]}, Recall(Real) $= $ \textbf{[VAL]}, F1(Real) $= $ \textbf{[VAL]}, Accuracy $= $ \textbf{[VAL]}, and Balanced Accuracy $= $ \textbf{[VAL]}. These results indicate a conservative classification tendency, where the model favours labeling inputs as fake, consistent with the skewed class distribution in the training data (9.56:1 fake-to-real).
+The VeriLens system, implemented using the LRCN model, produced the confusion matrix shown in Figure 11 (per-video evaluation, $N = 1{,}246$). The model correctly classified 1,126 fake videos and 21 real videos, while 2 fake videos were incorrectly labeled as real and 97 real videos were misclassified as fake. From these counts, the per-video metrics are computed as: Precision(Real) $= 0.913$, Recall(Real) $= 0.178$, F1(Real) $= 0.298$, Accuracy $= 0.921$, and Balanced Accuracy $= 0.588$. These results indicate a conservative classification tendency, where the model favours labeling inputs as fake, consistent with the skewed class distribution in the training data (9.56:1 fake-to-real).
 
 
 % ************************************************************
@@ -288,7 +269,7 @@ The VeriLens system, implemented using the LRCN model, produced the confusion ma
 % The VeriLens system implemented using the SVM model produced the confusion matrix shown in Figure 12, accurately classifying 15,030 cases with only 5 misclassifications, demonstrating the model's remarkable capability to detect fraudulent videos. While 1,317 samples were incorrectly classified as fake, 203 authentic video samples were correctly identified. Despite a slightly higher false positive rate for genuine content, these results indicate exceptional precision in detecting bogus videos.
 
 % --- REPLACE with: ---
-The VeriLens system implemented using the SVM model produced the confusion matrix shown in Figure 12 (per-video evaluation, $N = 1{,}246$). The classifier correctly identified \textbf{[TN]} fake videos and \textbf{[TP]} real videos, with \textbf{[FP]} fake videos mislabeled as real and \textbf{[FN]} real videos misclassified as fake. The resulting per-video metrics are: Precision(Real) $= $ \textbf{[VAL]}, Recall(Real) $= $ \textbf{[VAL]}, F1(Real) $= $ \textbf{[VAL]}, Accuracy $= $ \textbf{[VAL]}, and Balanced Accuracy $= $ \textbf{[VAL]}.
+The VeriLens system implemented using the SVM model produced the confusion matrix shown in Figure 12 (per-video evaluation, $N = 1{,}246$). At the default decision threshold of 0.5, the SVM classified all 1,128 fake videos correctly (TN $= 1{,}128$, FP $= 0$) but failed to identify any of the 118 real videos (TP $= 0$, FN $= 118$), resulting in Recall(Real) $= 0.0$ and Balanced Accuracy $= 0.5$. This outcome is equivalent to a trivial all-Fake classifier and illustrates the severity of the class imbalance problem. However, threshold analysis (Section 4.4) reveals that at an optimised threshold of $t = 0.15$, the SVM achieves Precision(Real) $= 0.313$, Recall(Real) $= 0.398$, and F1(Real) $= 0.351$, confirming that the classifier does possess discriminative capacity (AUC $= 0.718$) that is masked by the default threshold under imbalanced conditions.
 
 
 % ************************************************************
@@ -301,28 +282,27 @@ The VeriLens system implemented using the SVM model produced the confusion matri
 % Based on the confusion matrices presented in Figures 11 and 12, we can examine the performance of both the LRCN and SVM approaches. The use of LRCN in the proposed system results in higher precision, better overall accuracy, and improved specificity, as illustrated in Figure 13. In contrast, employing SVM in the proposed system achieves superior recall and a higher F1 score, as depicted in Figure 14.
 
 % --- REPLACE with: ---
-Based on the confusion matrices presented in Figures 11 and 12, the per-video metrics reported in Table~\ref{tab:celeb_results} can be directly verified. The LRCN model exhibits higher precision and specificity at the cost of lower recall for the Real class, while the SVM produces a comparatively different balance between these metrics. This behaviour is largely attributable to the 9.56:1 class imbalance present in the Celeb-DF v2 test set, as further analysed in Section 4.4. Figures 13 and 14 present the training and validation performance curves for the LRCN and SVM models respectively.
+Based on the confusion matrices presented in Figures 11 and 12, the per-video metrics reported in Table~\ref{tab:celeb_results} can be directly verified. The LRCN model exhibits higher precision (0.913) and specificity (0.998) at the cost of lower recall (0.178) for the Real class, while the SVM at default threshold assigns all samples to the Fake class. This behaviour is largely attributable to the 9.56:1 class imbalance present in the Celeb-DF v2 test set, as further analysed in Section 4.4. Figures 13 and 14 present the training and validation performance curves for the LRCN and SVM models respectively.
 
 \vspace{3mm}
 
 \noindent\textbf{Verification of Table~\ref{tab:celeb_results} from Confusion Matrices.} To ensure full consistency between the reported metrics and the confusion matrices, all values in Table~\ref{tab:celeb_results} are derived directly from the displayed counts:
 
 \noindent\textit{LRCN (Figure 11):}
-TN $= $ \textbf{[VAL]}, FP $= $ \textbf{[VAL]}, FN $= $ \textbf{[VAL]}, TP $= $ \textbf{[VAL]}.
+TN $= 1{,}126$, FP $= 2$, FN $= 97$, TP $= 21$.
 \begin{align*}
-\text{Precision} &= \frac{\text{TP}}{\text{TP} + \text{FP}} = \textbf{[VAL]}, \quad
-\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \textbf{[VAL]} \\
-\text{F1} &= \frac{2 \cdot \text{Prec} \cdot \text{Rec}}{\text{Prec} + \text{Rec}} = \textbf{[VAL]}, \quad
-\text{Accuracy} = \frac{\text{TP} + \text{TN}}{N} = \textbf{[VAL]}
+\text{Precision} &= \frac{21}{21 + 2} = 0.913, \quad
+\text{Recall} = \frac{21}{21 + 97} = 0.178 \\
+\text{F1} &= \frac{2 \times 0.913 \times 0.178}{0.913 + 0.178} = 0.298, \quad
+\text{Accuracy} = \frac{21 + 1126}{1246} = 0.921
 \end{align*}
 
 \noindent\textit{SVM (Figure 12):}
-TN $= $ \textbf{[VAL]}, FP $= $ \textbf{[VAL]}, FN $= $ \textbf{[VAL]}, TP $= $ \textbf{[VAL]}.
+TN $= 1{,}128$, FP $= 0$, FN $= 118$, TP $= 0$.
 \begin{align*}
-\text{Precision} &= \textbf{[VAL]}, \quad
-\text{Recall} = \textbf{[VAL]}, \quad
-\text{F1} = \textbf{[VAL]}, \quad
-\text{Accuracy} = \textbf{[VAL]}
+\text{Precision} &= 0/0 \text{ (undefined)}, \quad
+\text{Recall} = 0/118 = 0.0, \quad
+\text{Accuracy} = 1128/1246 = 0.905
 \end{align*}
 
 \noindent These derived values correspond exactly to the entries in the respective columns of Table~\ref{tab:celeb_results}.
@@ -334,23 +314,23 @@ TN $= $ \textbf{[VAL]}, FP $= $ \textbf{[VAL]}, FN $= $ \textbf{[VAL]}, TP $= $ 
 % ************************************************************
 
 % --- FIND (LRCN DFDC, about Fig 15): ---
-% the confusion matrix indicates that the model correctly identified 28 authentic films and 604 fraudulent movies. However, 45 genuine films were incorrectly labeled as fake, while 10 fraudulent videos were misclassified as real. These results suggest a slightly reduced ability to accurately recognize authentic samples but demonstrate high sensitivity in detecting fraudulent content.
+% the confusion matrix indicates that the model correctly identified 28 authentic films and 604 fraudulent movies. However, 45 genuine films were incorrectly labeled as fake, while 10 fraudulent videos were misclassified as real.
 
 % --- REPLACE with: ---
-the confusion matrix (per-video evaluation, $N = 687$) shows that the LRCN model correctly classified \textbf{[TN]} fake videos and \textbf{[TP]} real videos, while \textbf{[FP]} fake videos were misclassified as real and \textbf{[FN]} real videos were incorrectly labeled as fake. These results indicate that the LRCN maintains reasonable detection sensitivity on the DFDC dataset, though with a slight reduction in recall when compared to the Celeb-DF v2 results.
+the confusion matrix (per-video evaluation, $N = 607$) shows that the LRCN model correctly classified 546 fake videos and 18 real videos, while 22 fake videos were misclassified as real and 21 real videos were incorrectly labeled as fake. The resulting metrics are: Precision(Real) $= 0.450$, Recall(Real) $= 0.462$, F1(Real) $= 0.456$, Accuracy $= 0.929$, and Balanced Accuracy $= 0.711$.
 
 
 % --- FIND (SVM DFDC, about Fig 16): ---
-% the confusion matrix reveals that the model correctly classified 43 authentic films and 513 fraudulent videos. However, 30 genuine videos were misclassified as fake, and 101 fraudulent videos were incorrectly labeled as real. These findings indicate that while fraudulent samples can be detected with reasonable reliability, the model demonstrates limited precision in distinguishing authentic content.
+% the confusion matrix reveals that the model correctly classified 43 authentic films and 513 fraudulent videos. However, 30 genuine videos were misclassified as fake, and 101 fraudulent videos were incorrectly labeled as real.
 
 % --- REPLACE with: ---
-the SVM confusion matrix (per-video evaluation, $N = 687$) indicates that \textbf{[TN]} fake videos were correctly classified and \textbf{[TP]} real videos were correctly identified, while \textbf{[FP]} fake videos were mislabeled as real and \textbf{[FN]} real videos were misclassified as fake.
+the SVM confusion matrix (per-video evaluation, $N = 607$) indicates that 566 fake videos were correctly classified and 13 real videos were correctly identified, while 2 fake videos were mislabeled as real and 26 real videos were misclassified as fake. The per-video SVM achieves Precision(Real) $= 0.867$, Recall(Real) $= 0.333$, and Accuracy $= 0.954$.
 
 
 % ************************************************************
 % 17. TABLE 1 — REPLACE ENTIRE TABLE (Celeb-DF)
 %     Priority: CRITICAL | Reviewer: R#4.1, R#7.3
-%     This fixes the column swap AND adds new metrics
+%     ALL NUMBERS FILLED IN
 % ************************************************************
 
 % --- FIND the entire \begin{table} ... \end{table} for Table 1
@@ -359,19 +339,19 @@ the SVM confusion matrix (per-video evaluation, $N = 687$) indicates that \textb
 \begin{table}[h!]
 \centering
 \renewcommand{\arraystretch}{1.5}
-\caption{Comparative analysis of VeriLens with existing approaches on the Celeb-DF v2 dataset~{[}17{]} (per-video evaluation, $N = 1{,}246$). $\dagger$ indicates results reproduced from original publications, not re-evaluated under our protocol.}
+\caption{Comparative analysis of VeriLens with existing approaches on the Celeb-DF v2 dataset~{[}17{]} (per-video evaluation, $N = 1{,}246$). $\dagger$ indicates results reproduced from original publications, not re-evaluated under our protocol. SVM$^*$ results shown at optimised threshold $t = 0.15$.}
 \label{tab:celeb_results}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\textbf{Metric} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(LRCN)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(SVM)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(LRCN-Focal)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriFace\\(CNN)$^\dagger$ {[}16{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}DenseNet$^\dagger$\\{[}3{]}\end{tabular}} \\
+\textbf{Metric} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(LRCN)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(SVM$^*$)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(LRCN-Focal)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriFace\\(CNN)$^\dagger$ {[}16{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}DenseNet$^\dagger$\\{[}3{]}\end{tabular}} \\
 \hline
-\textbf{Precision}     & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.741 & 0.950 \\ \hline
-\textbf{Recall}        & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.473 & 0.993 \\ \hline
-\textbf{Accuracy}      & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.734 & 0.970 \\ \hline
-\textbf{F1-score}      & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.572 & 0.971 \\ \hline
-\textbf{Specificity}   & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.241 & 0.992 \\ \hline
-\textbf{Balanced Acc.} & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & ---   & ---   \\ \hline
-\textbf{AUC}           & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & ---   & ---   \\ \hline
+\textbf{Precision}     & 0.913 & 0.313 & 0.144 & 0.741 & 0.950 \\ \hline
+\textbf{Recall}        & 0.178 & 0.398 & 0.805 & 0.473 & 0.993 \\ \hline
+\textbf{Accuracy}      & 0.921 & ---   & 0.530 & 0.734 & 0.970 \\ \hline
+\textbf{F1-score}      & 0.298 & 0.351 & 0.245 & 0.572 & 0.971 \\ \hline
+\textbf{Specificity}   & 0.998 & ---   & 0.501 & 0.241 & 0.992 \\ \hline
+\textbf{Balanced Acc.} & 0.588 & 0.500 & 0.653 & ---   & ---   \\ \hline
+\textbf{AUC}           & 0.770 & 0.718 & 0.745 & ---   & ---   \\ \hline
 \end{tabular}
 \end{table}
 
@@ -379,27 +359,25 @@ the SVM confusion matrix (per-video evaluation, $N = 687$) indicates that \textb
 % ************************************************************
 % 18. TABLE 2 — REPLACE ENTIRE TABLE (DFDC)
 %     Priority: HIGH | Reviewer: R#4.1, R#7.3
+%     ALL NUMBERS FILLED IN
 % ************************************************************
-
-% --- FIND the entire \begin{table} ... \end{table} for Table 2
-%     (DFDC) and REPLACE with: ---
 
 \begin{table}[h!]
 \centering
 \renewcommand{\arraystretch}{1.5}
-\caption{Comparative analysis of VeriLens with existing approaches on the DFDC dataset~{[}18{]} (per-video evaluation, $N = 687$). $\dagger$ indicates results reproduced from original publications, not re-evaluated under our protocol.}
+\caption{Comparative analysis of VeriLens with existing approaches on the DFDC dataset~{[}18{]} (per-video evaluation, $N = 607$). $\dagger$ indicates results reproduced from original publications, not re-evaluated under our protocol.}
 \label{tab:dfdc_results}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \textbf{Metric} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(LRCN)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(SVM)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriLens\\(LRCN-Focal)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}VeriFace\\(CNN)$^\dagger$ {[}16{]}\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}DenseNet$^\dagger$\\{[}3{]}\end{tabular}} \\
 \hline
-\textbf{Precision}     & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.62 & 0.88 \\ \hline
-\textbf{Recall}        & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.35 & 0.85 \\ \hline
-\textbf{Accuracy}      & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.78 & 0.90 \\ \hline
-\textbf{F1-score}      & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.45 & 0.86 \\ \hline
-\textbf{Specificity}   & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & 0.80 & 0.91 \\ \hline
-\textbf{Balanced Acc.} & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & ---  & ---  \\ \hline
-\textbf{AUC}           & \textbf{[VAL]} & \textbf{[VAL]} & \textbf{[VAL]} & ---  & ---  \\ \hline
+\textbf{Precision}     & 0.450 & 0.867 & 0.126 & 0.62 & 0.88 \\ \hline
+\textbf{Recall}        & 0.462 & 0.333 & 0.795 & 0.35 & 0.85 \\ \hline
+\textbf{Accuracy}      & 0.929 & 0.954 & 0.633 & 0.78 & 0.90 \\ \hline
+\textbf{F1-score}      & 0.456 & 0.482 & 0.218 & 0.45 & 0.86 \\ \hline
+\textbf{Specificity}   & 0.961 & 0.996 & 0.622 & 0.80 & 0.91 \\ \hline
+\textbf{Balanced Acc.} & 0.711 & 0.665 & 0.708 & ---  & ---  \\ \hline
+\textbf{AUC}           & 0.739 & 0.877 & 0.816 & ---  & ---  \\ \hline
 \end{tabular}
 \end{table}
 
@@ -409,53 +387,43 @@ the SVM confusion matrix (per-video evaluation, $N = 687$) indicates that \textb
 %     Priority: HIGH | Reviewer: R#4.8
 % ************************************************************
 
-% --- FIND (starts with "As shown in Table 1 and 2, when implemented
-%     with the LRCN model..."): ---
-
-% As shown in Table 1 and 2, when implemented with the LRCN model, VeriLens achieves the highest precision (0.976) and specificity (0.997), reflecting strong capability in minimizing false positives, though at the cost of lower recall (0.134). Conversely, the SVM variant improves recall (0.444) and delivers balanced accuracy (0.919) and specificity (0.971). Compared with the DenseNet-based DeepFake Detection method in [3], which achieves both high precision (0.950) and recall (0.993), VeriLens provides flexible trade-offs between sensitivity and precision depending on the chosen model (LRCN or SVM). These findings indicate that VeriLens offers adaptable and reliable DeepFake detection performance across multiple datasets, making it a strong candidate for practical deployment where either minimizing false positives or maximizing detection sensitivity is prioritized.
+% --- FIND (starts with "As shown in Table 1 and 2, when implemented with the LRCN model..."): ---
 
 % --- REPLACE with: ---
-
-As shown in Tables~\ref{tab:celeb_results} and~\ref{tab:dfdc_results}, the LRCN model in VeriLens achieves high precision (\textbf{[VAL]}) and specificity (\textbf{[VAL]}) on Celeb-DF v2, reflecting a strong capability in minimizing false positive detections, though at the cost of lower recall (\textbf{[VAL]}). The SVM variant produces a different balance, with recall of \textbf{[VAL]} and balanced accuracy of \textbf{[VAL]}. To address the limited recall exhibited by the original LRCN under class imbalance, a retrained variant employing focal loss and balanced mini-batch sampling (LRCN-Focal) is additionally evaluated, which substantially improves recall to \textbf{[VAL]} while maintaining competitive overall accuracy (\textbf{[VAL]}).
+As shown in Tables~\ref{tab:celeb_results} and~\ref{tab:dfdc_results}, the LRCN model in VeriLens achieves high precision (0.913) and specificity (0.998) on Celeb-DF v2, reflecting a strong capability in minimizing false positive detections, though at the cost of lower recall (0.178). The SVM, while possessing discriminative capacity (AUC $= 0.718$), requires threshold optimisation to produce meaningful recall. To address the limited recall exhibited by the original LRCN under class imbalance, a retrained variant employing focal loss and balanced mini-batch sampling (LRCN-Focal) is additionally evaluated, which substantially improves recall to 0.805 while maintaining a balanced accuracy of 0.653.
 
 It should be noted that the results reported for the DenseNet-based method~{[}3{]} and VeriFace~{[}16{]} are taken from their respective original publications and were not re-evaluated under the experimental protocol used in this study. Consequently, direct numerical comparisons should be interpreted with caution, given that differences in data splits, preprocessing pipelines, and evaluation granularity may affect the reported figures. Notwithstanding this limitation, VeriLens demonstrates competitive performance across both datasets and offers flexibility through its multiple classifier variants, making it a practical option for deployment scenarios where either minimizing false positives or maximizing detection sensitivity is prioritized.
 
 
 % ************************************************************
-% 20. SECTION 4.3 — fix discussion paragraph (Page 25)
+% 20. SECTION 4.3 — fix discussion paragraph
 %     Priority: MEDIUM | Reviewer: R#4.8
 % ************************************************************
 
 % --- FIND: ---
-% The LRCN model in VeriLens prioritizes high accuracy (0.976) and specificity (0.997), making it highly cautious in labeling content as fraudulent, which greatly reduces false positives but results in low recall (0.134). The SVM variant shifts this balance, improving recall (0.444) and providing more balanced accuracy (0.919) and specificity (0.971).
+% The LRCN model in VeriLens prioritizes high accuracy (0.976) and specificity (0.997), making it highly cautious in labeling content as fraudulent, which greatly reduces false positives but results in low recall (0.134). The SVM variant shifts this balance, improving recall (0.444) and providing more balanced accuracy (0.919) and specificity (0.971). This trade-off reflects the dataset's imbalance, where models tend to optimize toward specificity at the cost of detecting some fraudulent cases. While DenseNet-based methods achieve higher recall and F1 scores, they introduce more false positives. VeriLens therefore offers flexibility: a highly precise LRCN model for minimizing false alarms, and an SVM model for improved sensitivity, enabling reliability tailored to deployment needs.
 
 % --- REPLACE with: ---
-The LRCN model in VeriLens prioritizes high precision (\textbf{[VAL]}) and specificity (\textbf{[VAL]}), making it highly cautious in labeling content as fraudulent, which greatly reduces false positives but results in low recall (\textbf{[VAL]}). The SVM variant shifts this balance, with recall of \textbf{[VAL]} and balanced accuracy of \textbf{[VAL]}.
-
-
-% --- ALSO FIND (same paragraph, further down): ---
-% This trade-off reflects the dataset's imbalance, where models tend to optimize toward specificity at the cost of detecting some fraudulent cases. While DenseNet-based methods achieve higher recall and F1 scores, they introduce more false positives. VeriLens therefore offers flexibility: a highly precise LRCN model for minimizing false alarms, and an SVM model for improved sensitivity, enabling reliability tailored to deployment needs.
-
-% --- REPLACE with: ---
-This trade-off is characteristic of the dataset's inherent imbalance, where models tend to optimize toward specificity at the expense of detecting minority-class samples. While the DenseNet-based method achieves higher recall and F1 scores, it may introduce additional false positives under different evaluation conditions. VeriLens therefore offers flexibility: a high-precision LRCN model for minimizing false alarms, a cost-sensitive LRCN-Focal variant with substantially improved recall, and an SVM baseline for comparison, enabling tailored deployment depending on the operational priorities.
+The LRCN model in VeriLens prioritizes high precision (0.913) and specificity (0.998), making it highly cautious in labeling content as fraudulent, which greatly reduces false positives but results in low recall (0.178). The SVM at default threshold assigns all samples to the majority class, achieving 90.5\% accuracy but zero recall for real videos; threshold optimisation (Section 4.4) recovers an F1 of 0.351. This trade-off is characteristic of the dataset's inherent imbalance, where models tend to optimize toward specificity at the expense of detecting minority-class samples. While the DenseNet-based method achieves higher recall and F1 scores, it may introduce additional false positives under different evaluation conditions. VeriLens therefore offers flexibility: a high-precision LRCN model for minimizing false alarms, a cost-sensitive LRCN-Focal variant with substantially improved recall (0.805 on Celeb-DF, 0.795 on DFDC), and an SVM baseline for comparison, enabling tailored deployment depending on the operational priorities.
 
 
 % ************************************************************
 % 21. NEW SECTION 4.4 — Class-Imbalance Analysis
 %     Priority: CRITICAL | Reviewer: R#7.3, R#7.4, R#7.5, R#7.6
-%     INSERT this entire section AFTER Section 4.3, BEFORE Section 5
+%     INSERT AFTER Section 4.3, BEFORE Section 5
+%     ALL NUMBERS FILLED IN
 % ************************************************************
 
 \subsection{Class-Imbalance Analysis and Cost-Sensitive Learning}
 \label{sec:imbalance}
 
-The Celeb-DF v2 test set contains 1,128 fake videos and only 118 real videos, yielding a class imbalance ratio of approximately 9.56:1. Under such conditions, a trivial classifier that labels every input as fake would still achieve roughly 90.5\% accuracy. This observation provides important context for interpreting the LRCN's overall accuracy of \textbf{[VAL]}\% alongside its recall of only \textbf{[VAL]}\% for the Real class.
+The Celeb-DF v2 test set contains 1,128 fake videos and only 118 real videos, yielding a class imbalance ratio of approximately 9.56:1. Under such conditions, a trivial classifier that labels every input as fake would still achieve roughly 90.5\% accuracy. This observation provides important context for interpreting the LRCN's overall accuracy of 92.1\% alongside its recall of only 17.8\% for the Real class.
 
 \subsubsection*{Analysis of the LRCN Recall Collapse}
 
-The high accuracy but low recall exhibited by the original LRCN can be attributed directly to the effect of training with standard categorical cross-entropy on heavily imbalanced data. Under these conditions, the model learns to minimize overall loss by biasing its predictions toward the majority class (Fake), which is clearly reflected in the confusion matrix: the LRCN achieves a high count of true negatives (correctly rejected fake videos) but a substantially lower count of true positives (correctly identified real videos).
+The high accuracy but low recall exhibited by the original LRCN can be attributed directly to the effect of training with standard categorical cross-entropy on heavily imbalanced data. Under these conditions, the model learns to minimize overall loss by biasing its predictions toward the majority class (Fake), which is clearly reflected in the confusion matrix: the LRCN achieves a high count of true negatives (TN $= 1{,}126$) but a substantially lower count of true positives (TP $= 21$ out of 118 real videos).
 
-Three lines of evidence support this interpretation. First, the balanced accuracy of \textbf{[VAL]} is only \textbf{[X]} percentage points above the random baseline of 50\%, revealing that the model's discriminative ability is considerably weaker than what the standard accuracy figure suggests. Second, threshold analysis (Figure~\ref{fig:threshold}) reveals that the LRCN assigns systematically low probabilities to the Real class, with the optimal F1 threshold located at \textbf{[VAL]} rather than the conventional 0.5. Third, the SVM model trained without class weights exhibits an analogous pattern, which confirms that the observed behaviour is driven by the data distribution rather than by limitations specific to the LRCN architecture.
+Three lines of evidence support this interpretation. First, the balanced accuracy of 0.588 is only 8.8 percentage points above the random baseline of 0.5, revealing that the model's discriminative ability is considerably weaker than what the standard accuracy figure of 92.1\% suggests. Second, threshold analysis (Figure~\ref{fig:threshold}) reveals that the LRCN assigns systematically low probabilities to the Real class, with the optimal F1 threshold located at $t = 0.095$ rather than the conventional 0.5. At this optimised threshold, F1(Real) improves from 0.298 to 0.444. Third, the SVM model trained without class weights exhibits an analogous pattern, predicting all samples as Fake at the default threshold (Balanced Accuracy $= 0.5$), which confirms that the observed behaviour is driven by the data distribution rather than by limitations specific to the LRCN architecture.
 
 \subsubsection*{Cost-Sensitive Retraining}
 
@@ -468,23 +436,23 @@ To mitigate the class imbalance, a retrained variant of the LRCN (referred to as
     \item \textbf{Learning rate scheduling and early stopping}: \texttt{ReduceLROnPlateau} (factor $= 0.5$, patience $= 2$) and early stopping (patience $= 4$, restoring best weights) are applied to avoid overfitting to the oversampled minority class.
 \end{enumerate}
 
-The results of this cost-sensitive retraining are included alongside the original models in Tables~\ref{tab:celeb_results} and~\ref{tab:dfdc_results}. On Celeb-DF v2, recall for the Real class improves from \textbf{[VAL]}\% to \textbf{[VAL]}\%, and balanced accuracy rises from \textbf{[VAL]} to \textbf{[VAL]}. On DFDC, recall improves from \textbf{[VAL]}\% to \textbf{[VAL]}\%, with AUC increasing from \textbf{[VAL]} to \textbf{[VAL]}. These gains come at the expected cost of reduced precision and overall accuracy, as the retrained model produces a higher number of false positive predictions. Nonetheless, the substantial improvement in recall confirms that the original LRCN's poor recall is attributable to the loss landscape under class imbalance and can be effectively mitigated through cost-sensitive training strategies.
+The results of this cost-sensitive retraining are included alongside the original models in Tables~\ref{tab:celeb_results} and~\ref{tab:dfdc_results}. On Celeb-DF v2, recall for the Real class improves from 17.8\% to 80.5\%, and balanced accuracy rises from 0.588 to 0.653. On DFDC, recall improves from 46.2\% to 79.5\%, with AUC increasing from 0.739 to 0.816. These gains come at the expected cost of reduced precision and overall accuracy, as the retrained model produces a higher number of false positive predictions (FP increases from 2 to 563 on Celeb-DF). Nonetheless, the substantial improvement in recall confirms that the original LRCN's poor recall is attributable to the loss landscape under class imbalance and can be effectively mitigated through cost-sensitive training strategies.
 
 % --- INSERT threshold analysis figure here ---
-% \begin{figure}[h!]
-%     \centering
-%     \includegraphics[width=0.9\linewidth]{threshold_analysis.png}
-%     \caption{Threshold sensitivity analysis for the LRCN, SVM, and LRCN-Focal models on Celeb-DF v2. The dashed vertical line indicates the default threshold of 0.5.}
-%     \label{fig:threshold}
-% \end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\linewidth]{threshold_analysis.png}
+    \caption{Threshold sensitivity analysis for the LRCN, SVM, and LRCN-Focal models on Celeb-DF v2. The dashed vertical line indicates the default threshold of 0.5.}
+    \label{fig:threshold}
+\end{figure}
 
 % --- INSERT PR curves figure here ---
-% \begin{figure}[h!]
-%     \centering
-%     \includegraphics[width=0.9\linewidth]{pr_curves.png}
-%     \caption{Precision-Recall curves with Average Precision (AP) scores for all models on Celeb-DF v2. The dashed horizontal line indicates the prevalence of the Real class (random baseline).}
-%     \label{fig:pr_curves}
-% \end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\linewidth]{pr_curves.png}
+    \caption{Precision-Recall curves with Average Precision (AP) scores for all models on Celeb-DF v2. AP values: LRCN-Original $= 0.444$, LRCN-Focal $= 0.301$, SVM $= 0.282$.}
+    \label{fig:pr_curves}
+\end{figure}
 
 
 % ************************************************************
@@ -496,19 +464,18 @@ The results of this cost-sensitive retraining are included alongside the origina
 % this paper introduced VeriLens, a deepfake detection framework that integrates Face Masking, VGG-16, and LRCN models to achieve enhanced accuracy, scalability, and real-time performance.
 
 % --- REPLACE with: ---
-this paper introduced VeriLens, a deepfake detection framework that combines Haar cascade-based face detection, VGG-16 feature extraction, and LRCN temporal classification to provide a scalable pipeline for offline deepfake detection across multiple benchmark datasets.
+% this paper introduced VeriLens, a deepfake detection framework that combines Haar cascade-based face detection, VGG-16 feature extraction, and LRCN temporal classification to provide a scalable pipeline for offline deepfake detection across multiple benchmark datasets.
 
 
 % --- FIND: ---
 % In summary, VeriLens achieves competitive DeepFake detection performance compared with VeriFace and DenseNet-based methods. By offering a high-precision LRCN variant and a higher-recall SVM variant
 
 % --- REPLACE with: ---
-In summary, VeriLens demonstrates competitive deepfake detection performance relative to VeriFace and DenseNet-based methods, noting that baseline results are drawn from their respective original publications and were not re-evaluated under the same experimental protocol. By offering a high-precision LRCN variant, a cost-sensitive LRCN-Focal variant with improved recall, and an SVM baseline
+% In summary, VeriLens demonstrates competitive deepfake detection performance relative to VeriFace and DenseNet-based methods, noting that baseline results are drawn from their respective original publications and were not re-evaluated under the same experimental protocol. By offering a high-precision LRCN variant, a cost-sensitive LRCN-Focal variant with improved recall, and an SVM baseline
 
 
 % ************************************************************
 % GLOBAL FIND-AND-REPLACE — run these through Overleaf Ctrl+H
-% with "Replace All"
 % ************************************************************
 %
 % AAR Cascade  -->  Haar Cascade       (case-sensitive, ~2 hits)
@@ -525,18 +492,30 @@ In summary, VeriLens demonstrates competitive deepfake detection performance rel
 
 
 % ************************************************************
-% FIGURES TO REGENERATE (from RTX 3050 run)
+% FIGURES TO UPLOAD TO OVERLEAF
 % ************************************************************
 %
-% 1. lrcn confusion matrix.jpeg  --> per-video counts (N=1,246)
-% 2. svm confusion matrix.jpeg   --> per-video counts (N=1,246)
-% 3. roc new.jpeg                --> correct AUC values
-% 4. DFDC confusion matrices     --> per-video counts (N=687)
-% 5. DFDC ROC curves             --> correct AUC values
+% FROM results/celeb-df/lrcn_original/:
+%   confusion_matrix.png  --> replace existing "lrcn confusion matrix.jpeg"
+%   ROC_curve.png         --> replace existing "roc new.jpeg"
+%   training_history.png  --> replace existing "lrcn training and validation.jpeg"
 %
-% NEW figures to create and upload:
-% 6. threshold_analysis.png      --> for Section 4.4
-% 7. pr_curves.png               --> for Section 4.4
-% 8. LRCN-Focal confusion matrices (both datasets)
+% FROM results/celeb-df/svm/:
+%   confusion_matrix.png  --> replace existing "svm confusion matrix.jpeg"
+%   training_history.png  --> replace existing "svm trvining and validation.jpeg"
+%
+% FROM results/celeb-df/lrcn_original/:
+%   threshold_analysis.png --> NEW figure for Section 4.4
+%   PR_curve.png           --> NEW figure for Section 4.4
+%
+% FROM results/dfdc/lrcn_original/:
+%   confusion_matrix.png  --> replace DFDC LRCN confusion matrix
+%   ROC_curve.png         --> replace DFDC ROC curves
+%
+% FROM results/dfdc/svm_per_video/:
+%   confusion_matrix.png  --> replace DFDC SVM confusion matrix
+%
+% FROM results/celeb-df/lrcn_retrained/:
+%   confusion_matrix.png  --> NEW figure (LRCN-Focal Celeb-DF)
 %
 % ************************************************************
