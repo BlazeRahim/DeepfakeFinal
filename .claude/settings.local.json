@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -c \"import numpy; print\\(''''numpy:'''', numpy.__version__\\); import tensorflow; print\\(''''tf:'''', tensorflow.__version__\\)\")",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -m pip install \"numpy<2.0\" --quiet)",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -c \"import tensorflow; print\\(''tf:'', tensorflow.__version__\\); import cv2; print\\(''cv2:'', cv2.__version__\\); import numpy; print\\(''numpy:'', numpy.__version__\\)\")",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -c \":*)",
+      "Bash(nvidia-smi)",
+      "Bash(nvcc --version)",
+      "Read(//c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/**)",
+      "Read(//c/Windows/System32/**)",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -m pip show nvidia-cudnn-cu11)",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -m pip list)",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -m pip install \"nvidia-cudnn-cu11==8.6.0.163\" --quiet)",
+      "Bash(c:/Users/blaze/miniconda3/envs/deepfake/python.exe -m pip install \"nvidia-cudnn-cu11==8.9.4.25\" --quiet)",
+      "Bash(PATH=\"C:/Users/blaze/miniconda3/envs/deepfake/Library/bin:C:/Users/blaze/miniconda3/envs/deepfake/Lib/site-packages/nvidia/cudnn/bin:$PATH\" c:/Users/blaze/miniconda3/envs/deepfake/python.exe -c \":*)",
+      "Bash(find c:/Users/blaze/Desktop/DeepfakeFinal -name *.mp4)",
+      "Bash(python3:*)"
+    ]
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "lrcn_original": {
+    "confusion_matrix": {
+      "TN": 546,
+      "FP": 22,
+      "FN": 21,
+      "TP": 18
+    },
+    "total_samples": 607,
+    "accuracy": 0.9292,
+    "balanced_accuracy": 0.7114,
+    "precision_real": 0.45,
+    "recall_real": 0.4615,
+    "f1_real": 0.4557,
+    "specificity": 0.9613,
+    "f1_fake": 0.9621,
+    "class_dist": {
+      "fake": 568,
+      "real": 39,
+      "ratio": 14.56
+    },
+    "roc_auc": 0.7386,
+    "avg_precision": 0.4304,
+    "best_threshold": {
+      "t": 0.54,
+      "prec": 0.5143,
+      "rec": 0.4615,
+      "f1": 0.4865
+    },
+    "model": "LRCN-Original",
+    "dataset": "dfdc"
+  },
+  "lrcn_retrained": {
+    "confusion_matrix": {
+      "TN": 353,
+      "FP": 215,
+      "FN": 8,
+      "TP": 31
+    },
+    "total_samples": 607,
+    "accuracy": 0.6326,
+    "balanced_accuracy": 0.7082,
+    "precision_real": 0.126,
+    "recall_real": 0.7949,
+    "f1_real": 0.2175,
+    "specificity": 0.6215,
+    "f1_fake": 0.76,
+    "class_dist": {
+      "fake": 568,
+      "real": 39,
+      "ratio": 14.56
+    },
+    "roc_auc": 0.8162,
+    "avg_precision": 0.4659,
+    "best_threshold": {
+      "t": 0.83,
+      "prec": 0.5556,
+      "rec": 0.5128,
+      "f1": 0.5333
+    },
+    "model": "LRCN-Retrained",
+    "dataset": "dfdc"
+  },
+  "svm_per_frame": {
+    "confusion_matrix": {
+      "TN": 8513,
+      "FP": 7,
+      "FN": 573,
+      "TP": 12
+    },
+    "total_samples": 9105,
+    "accuracy": 0.9363,
+    "balanced_accuracy": 0.5098,
+    "precision_real": 0.6316,
+    "recall_real": 0.0205,
+    "f1_real": 0.0397,
+    "specificity": 0.9992,
+    "f1_fake": 0.9671,
+    "class_dist": {
+      "fake": 8520,
+      "real": 585,
+      "ratio": 14.56
+    },
+    "roc_auc": 0.7633,
+    "avg_precision": 0.3417,
+    "best_threshold": {
+      "t": 0.05,
+      "prec": 0.4615,
+      "rec": 0.0103,
+      "f1": 0.0201
+    },
+    "model": "SVM",
+    "dataset": "dfdc"
+  },
+  "svm_per_video": {
+    "confusion_matrix": {
+      "TN": 566,
+      "FP": 2,
+      "FN": 26,
+      "TP": 13
+    },
+    "total_samples": 607,
+    "accuracy": 0.9539,
+    "balanced_accuracy": 0.6649,
+    "precision_real": 0.8667,
+    "recall_real": 0.3333,
+    "f1_real": 0.4815,
+    "specificity": 0.9965,
+    "f1_fake": 0.9759,
+    "class_dist": {
+      "fake": 568,
+      "real": 39,
+      "ratio": 14.56
+    },
+    "roc_auc": 0.8773,
+    "avg_precision": 0.5673,
+    "best_threshold": {
+      "t": 0.19,
+      "prec": 0.5227,
+      "rec": 0.5897,
+      "f1": 0.5542
+    },
+    "model": "SVM (per-video)",
+    "dataset": "dfdc"
+  }
+}

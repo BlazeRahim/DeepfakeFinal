@@ -1,0 +1,31 @@
+{
+  "confusion_matrix": {
+    "TN": 566,
+    "FP": 2,
+    "FN": 26,
+    "TP": 13
+  },
+  "total_samples": 607,
+  "accuracy": 0.9539,
+  "balanced_accuracy": 0.6649,
+  "precision_real": 0.8667,
+  "recall_real": 0.3333,
+  "f1_real": 0.4815,
+  "specificity": 0.9965,
+  "f1_fake": 0.9759,
+  "class_dist": {
+    "fake": 568,
+    "real": 39,
+    "ratio": 14.56
+  },
+  "roc_auc": 0.8773,
+  "avg_precision": 0.5673,
+  "best_threshold": {
+    "t": 0.19,
+    "prec": 0.5227,
+    "rec": 0.5897,
+    "f1": 0.5542
+  },
+  "model": "SVM (per-video)",
+  "dataset": "dfdc"
+}

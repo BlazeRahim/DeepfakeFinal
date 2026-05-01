@@ -1,0 +1,31 @@
+{
+  "confusion_matrix": {
+    "TN": 527,
+    "FP": 601,
+    "FN": 21,
+    "TP": 97
+  },
+  "total_samples": 1246,
+  "accuracy": 0.5008,
+  "balanced_accuracy": 0.6446,
+  "precision_real": 0.139,
+  "recall_real": 0.822,
+  "f1_real": 0.2377,
+  "specificity": 0.4672,
+  "f1_fake": 0.6289,
+  "class_dist": {
+    "fake": 1128,
+    "real": 118,
+    "ratio": 9.56
+  },
+  "roc_auc": 0.7422,
+  "avg_precision": 0.3363,
+  "best_threshold": {
+    "t": 0.765,
+    "prec": 0.329,
+    "rec": 0.4322,
+    "f1": 0.3736
+  },
+  "model": "LRCN-Retrained",
+  "dataset": "celeb-df"
+}

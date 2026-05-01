@@ -1,0 +1,21 @@
+{
+  "n_videos": 10,
+  "stats": {
+    "face_det": {
+      "mean": 0.3516,
+      "std": 0.0216
+    },
+    "vgg": {
+      "mean": 0.1487,
+      "std": 0.0779
+    },
+    "classifier": {
+      "mean": 0.0564,
+      "std": 0.0591
+    },
+    "total": {
+      "mean": 0.5567,
+      "std": 0.1381
+    }
+  }
+}
