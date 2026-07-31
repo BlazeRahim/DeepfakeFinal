@@ -198,7 +198,7 @@ are used to create the model.
 5. Train the Model:
 • With a batch size of 32, the model is trained on the training set for 100 epochs.
 During training, validation is done on the testing data. pickle is used to save
-the training history to a file.
+the traning history to a file.
 ```
 
 **REPLACE WITH:**
